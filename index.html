@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BlenderLab</title>
+    <style>
+	
+		/* ========================= */
+		/* CARGA DE FUENTE PERSONALIZADA */
+		/* ========================= */
+        /* Estilos anteriores (sin cambios) */
+        @font-face {
+            font-family: 'BubbleAndSoap';
+            src: url('assets/fonts/Coffee At Midnight Demo.ttf') format('truetype');
+        }
+		
+		/* Importamos la fuente alternativa desde Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap');
+
+        body {
+            font-family: 'BubbleAndSoap', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: linear-gradient(to bottom, rgba(135, 206, 250, 0.2), rgba(173, 216, 230, 0.2));
+            margin: 0;
+            padding: 0;
+        }
+
+/* ========================= */
+/* ANIMACIONES */
+/* ========================= */
+
+/* Efecto de aparición pixelada */
+@keyframes pixelated-appear {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+        filter: blur(10px);
+    }
+    50% {
+        opacity: 0.5;
+        transform: scale(1.1);
+        filter: blur(3px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+        filter: blur(0);
+    }
+}
+
+
+
+/* ========================= */
+/* ESTILO DEL TÍTULO PRINCIPAL */
+/* ========================= */
+
+.titulo {
+    font-size: 55px; /* Tamaño grande para destacar el título */
+    font-weight: bold; /* Texto en negrita */
+    text-align: center; /* Centra el título en la pantalla */
+    margin-top: 30px; /* Ajusta el margen superior para empujar el título hacia abajo */
+    font-family: 'BubbleAndSoap', sans-serif; /* Usa la fuente personalizada */
+    color: white; /* Color dorado metálico */
+    
+	
+    text-shadow: 4px 4px 6px rgba(255, 102, 0, 0.5); /* Sombra más intensa */
+    animation: pixelated-appear 1.5s ease-in-out; /* Efecto de entrada */
+    display: inline-block;
+    transition: all 0.5s ease-in-out;
+    position: relative;
+}
+
+
+
+
+/* ========================= */
+/* CONTENEDOR DE LA IMAGEN */
+/* ========================= */
+
+.image-container {
+    display: flex; /* Usa flexbox para centrar la imagen */
+    justify-content: center; /* Centra la imagen horizontalmente */
+    align-items: center; /* Centra la imagen verticalmente */
+    margin-top: 0px; /* Ajusta el margen superior para empujar la imagen hacia abajo */
+}
+
+/* ========================= */
+/* ESTILO DE LA IMAGEN */
+/* ========================= */
+
+.image-container img {
+    width: 280px; /* Define el ancho de la imagen */
+    height: auto; /* Mantiene la proporción de la imagen */
+    transition: transform 0.3s ease-in-out; /* Agrega una transición suave al pasar el mouse */
+}
+
+/* Efecto al pasar el mouse sobre la imagen */
+.image-container img:hover {
+    transform: scale(1.05); /* Aumenta ligeramente el tamaño de la imagen */
+}
+
+		
+		
+/* ========================= */
+/* CONTENEDOR DE LOS BOTONES */
+/* ========================= */
+
+.buttons {
+    margin-top: auto; /* Permite que el contenido principal empuje los botones hacia abajo */
+    display: flex; /* Usa flexbox para organizar los botones */
+    justify-content: center; /* Centra los botones horizontalmente */
+    align-items: center; /* Asegura que los botones estén alineados verticalmente */
+    flex-wrap: wrap; /* Permite que los botones se ajusten si hay demasiados */
+    padding: 20px; /* Espaciado interno para que no queden pegados al borde */
+    padding-bottom: 30px; /* Espaciado inferior para evitar que queden pegados al footer */
+
+    /* ======== Borde animado con efecto neón ======== */
+    border: 3px solid transparent; /* Inicialmente invisible */
+    border-radius: 12px; /* Bordes redondeados para un look moderno */
+    position: relative; /* Para el efecto del borde animado */
+
+    /* Efecto de sombra neón alrededor */
+    box-shadow: 0px 0px 10px rgba(0, 255, 255, 0.8), 
+                0px 0px 20px rgba(0, 255, 255, 0.6), 
+                0px 0px 40px rgba(0, 255, 255, 0.5); 
+
+    /* Animación del borde */
+    animation: glow-border 3s linear infinite;
+}
+
+/* ========================= */
+/* EFECTO NEÓN ANIMADO */
+/* ========================= */
+@keyframes glow-border {
+    0% { border-color: #00FFFF; box-shadow: 0px 0px 10px #00FFFF; } /* Azul neón */
+    25% { border-color: #1E90FF; box-shadow: 0px 0px 10px #1E90FF; } /* Azul eléctrico */
+    50% { border-color: #00BFFF; box-shadow: 0px 0px 10px #00BFFF; } /* Azul cielo */
+    75% { border-color: #1E90FF; box-shadow: 0px 0px 10px #1E90FF; } /* Azul eléctrico */
+    100% { border-color: #00FFFF; box-shadow: 0px 0px 10px #00FFFF; } /* Azul neón */
+}
+
+
+/* Estilo de los botones */
+.buttons button {
+    padding: 12px 20px; /* Aumenta el tamaño del botón para mejor apariencia y usabilidad */
+    font-size: 18px; /* Define el tamaño del texto */
+    font-weight: bold; /* Hace el texto más grueso */
+    border: none; /* Elimina los bordes */
+    border-radius: 8px; /* Bordes redondeados */
+    margin: 10px; /* Agrega espacio entre los botones */
+    cursor: pointer; /* Cambia el cursor a una mano al pasar sobre el botón */
+    background-color: #1E90FF; /* Color azul brillante */
+    color: white; /* Texto en color blanco */
+    transition: transform 0.2s ease-in-out, background 0.3s; /* Agrega transiciones suaves */
+}
+
+/* Efecto cuando el mouse pasa sobre los botones */
+.buttons button:hover {
+    background-color: #4169E1; /* Cambia el color de fondo a un azul más oscuro */
+    transform: scale(1.1); /* Hace que el botón aumente de tamaño ligeramente */
+}
+
+
+        /* Estilos para el modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: #87CEEB;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            width: 350px;
+            border: 5px solid #4682B4;
+        }
+
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 30px;
+            cursor: pointer;
+            color: white;
+        }
+
+        input, select, button {
+            width: 90%;
+            margin-top: 10px;
+            padding: 12px;
+            border: 3px solid #000;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #1E90FF;
+            color: white;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #4169E1;
+        }
+
+        .avatar-preview {
+            margin-top: 15px;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #000;
+            display: none;
+        }
+
+        .avatar-preview.show {
+            display: block;
+        }
+
+        /* Estilos para las barras laterales */
+        .slidebar {
+            position: fixed;
+            top: 0;
+            width: 250px;
+            height: 100vh;
+            overflow: hidden;
+            background: linear-gradient(to bottom, rgba(135, 206, 250, 0.2), rgba(173, 216, 230, 0.2));
+            padding: 15px;
+            box-sizing: border-box;
+            -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 20%, rgba(0, 0, 0, 1) 80%, rgba(0, 0, 0, 0) 100%);
+            mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 20%, rgba(0, 0, 0, 1) 80%, rgba(0, 0, 0, 0) 100%);
+        }
+
+        .left-slidebar {
+            left: 0;
+        }
+
+        .right-slidebar {
+            right: 0;
+        }
+
+        .slidebar .slide {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .slidebar img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+            margin-bottom: 10px;
+        }
+
+        .slidebar img:hover {
+            transform: scale(1.1);
+        }
+		
+/* ========================= */
+/* ESTILO DEL FOOTER */
+/* ========================= */
+
+.footer {
+    width: 100%; /* Ocupa todo el ancho */
+    text-align: center; /* Centra el texto */
+    padding: 10px 0; /* Espaciado vertical */
+    font-size: 15px; /* Tamaño del texto */
+    font-weight: bold; /* Negrita para mayor presencia */
+    font-family: 'Dancing Script', cursive; /* Aplica la fuente manuscrita */
+    color: #222; /* Color de texto oscuro */
+    text-shadow: 4px 4px 6px rgba(150, 150, 150, 0.5); /* Sombra de texto suave */
+    transition: color 0.3s ease, text-shadow 0.3s ease; /* Transición suave de color */
+    margin-top: auto; /* Permite que el contenido principal empuje el footer */
+    position: relative; /* Mantiene el footer al final sin ser fijo */
+    bottom: 0;
+    line-height: 1.2; /* Reduce el espacio entre líneas para que el texto esté más agrupado */
+}
+
+/* Efecto hover para resaltar el footer */
+.footer:hover {
+    color: #ff6600; /* Cambia el color al pasar el mouse */
+    text-shadow: 4px 4px 6px rgba(255, 102, 0, 0.5); /* Sombra más intensa */
+}
+
+		
+		
+    </style>
+</head>
+<body>
+
+    <h1 class="titulo">BlenderLab</h1>
+
+    <div class="image-container">
+        <img src="assets/images/mascota_blender_SF.png" alt="Blender Mascota">
+    </div>
+
+    <div class="buttons">
+        <button onclick="openModal('signin')">Entrar</button>
+    </div>
+
+    <!-- Modal para Sign In -->
+    <div id="signinModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('signin')">&times;</span>
+            <form id="formulario" action="blender_inicio.html" method="GET">
+                <input type="text" name="nombre" placeholder="Ingrese su nombre" required>
+                <input type="email" name="correo" placeholder="Ingrese su correo" required>
+                <select name="avatar" id="avatarSelect" required>
+                    <option value="">Seleccione un avatar</option>
+                    <option value="assets/images/avatar/avatar (1).png">Avatar 1</option>
+                    <option value="assets/images/avatar/avatar (2).png">Avatar 2</option>
+                    <option value="assets/images/avatar/avatar (3).png">Avatar 3</option>
+                </select>
+                <img id="avatarPreview" class="avatar-preview" src="" alt="Vista previa del avatar">
+                <a href="blender.html">
+                    <button type="button">Ingresar</button>
+                </a>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal para Login -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('login')">&times;</span>
+            <form id="loginForm" action="blender_inicio.html" method="GET">
+                <input type="text" name="nombre" placeholder="Ingrese su nombre" required>
+                <input type="email" name="correo" placeholder="Ingrese su correo" required>
+                <button type="submit">Ingresar</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Barras laterales (sin cambios) -->
+    <div class="slidebar left-slidebar">
+        <div class="slide"><img src="assets/images/blender (1).png" alt="Left Image 1"></div>
+        <div class="slide"><img src="assets/images/blender (2).png" alt="Left Image 2"></div>
+        <div class="slide"><img src="assets/images/blender (3).png" alt="Left Image 3"></div>
+        <div class="slide"><img src="assets/images/blender (4).png" alt="Left Image 4"></div>
+        <div class="slide"><img src="assets/images/blender (5).png" alt="Left Image 5"></div>
+        <div class="slide"><img src="assets/images/blender (6).png" alt="Left Image 6"></div>
+        <div class="slide"><img src="assets/images/blender (7).png" alt="Left Image 7"></div>
+		<div class="slide"><img src="assets/images/blender (8).png" alt="Left Image 7"></div>
+    </div>
+
+    <div class="slidebar right-slidebar">
+        <div class="slide"><img src="assets/images/blender (9).png" alt="Right Image 1"></div>
+        <div class="slide"><img src="assets/images/blender (10).png" alt="Right Image 2"></div>
+        <div class="slide"><img src="assets/images/blender (11).png" alt="Right Image 3"></div>
+        <div class="slide"><img src="assets/images/blender (12).png" alt="Right Image 4"></div>
+        <div class="slide"><img src="assets/images/blender (13).png" alt="Right Image 5"></div>
+        <div class="slide"><img src="assets/images/blender (14).png" alt="Right Image 6"></div>
+        <div class="slide"><img src="assets/images/blender (15).png" alt="Right Image 7"></div>
+		<div class="slide"><img src="assets/images/blender (16).png" alt="Right Image 7"></div>
+    </div>
+		
+	
+	 <footer class="footer">
+        <p>Proyecto de Ingeniería 2</p>
+		<p>Diseño y Desarrollo Web por Jeffrey Bustamante</p>
+    </footer>
+
+    <script>
+        // Función para abrir modales
+        function openModal(modalType) {
+            if (modalType === 'signin') {
+                document.getElementById('signinModal').style.display = 'flex';
+            } else if (modalType === 'login') {
+                document.getElementById('loginModal').style.display = 'flex';
+            }
+        }
+
+        // Función para cerrar modales
+        function closeModal(modalType) {
+            if (modalType === 'signin') {
+                document.getElementById('signinModal').style.display = 'none';
+            } else if (modalType === 'login') {
+                document.getElementById('loginModal').style.display = 'none';
+            }
+        }
+
+        // Cerrar modal al hacer clic fuera del contenido
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+
+        // Vista previa del avatar (solo para Sign In)
+        document.getElementById('avatarSelect').addEventListener('change', function() {
+            let selectedAvatar = this.value;
+            let avatarPreview = document.getElementById('avatarPreview');
+            if (selectedAvatar) {
+                avatarPreview.src = selectedAvatar;
+                avatarPreview.style.display = 'block';
+            } else {
+                avatarPreview.style.display = 'none';
+            }
+        });
+
+        // Desplazamiento automático de imágenes en las barras laterales
+        function startScrolling(slidebar) {
+            const slides = slidebar.querySelectorAll('.slide');
+            let currentScroll = 0;
+
+            slides.forEach(slide => {
+                const clone = slide.cloneNode(true);
+                slidebar.appendChild(clone);
+            });
+
+            setInterval(() => {
+                currentScroll += 1;
+                slidebar.scrollTop = currentScroll;
+
+                if (currentScroll >= slidebar.scrollHeight / 2) {
+                    currentScroll = 0;
+                    slidebar.scrollTop = 0;
+                }
+            }, 20);
+        }
+
+        // Iniciar el desplazamiento en ambas barras laterales
+        let leftSlidebar = document.querySelector('.left-slidebar');
+        let rightSlidebar = document.querySelector('.right-slidebar');
+
+        if (leftSlidebar) startScrolling(leftSlidebar);
+        if (rightSlidebar) startScrolling(rightSlidebar);
+    </script>
+</body>
+</html>
