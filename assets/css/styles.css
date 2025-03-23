@@ -1,0 +1,598 @@
+/* Estilos generales del cuerpo de la página */
+body {
+    font-family: 'Montserrat', sans-serif; /* Fuente moderna y limpia */
+    background-color: #f4f4f4; /* Color de fondo */
+    margin: 0; /* Eliminar márgenes */
+    padding: 20px; /* Relleno interno */
+    text-align: center; /* Centrar el texto */
+    overflow-y: auto; /* Permitir scroll vertical */
+    overflow-x: hidden; /* Evitar scroll horizontal */
+}
+
+/* Personalización de la barra de desplazamiento */
+body::-webkit-scrollbar {
+    width: 10px; /* Ancho de la barra */
+}
+
+/* Estilo del fondo donde se mueve el scroll */
+body::-webkit-scrollbar-track {
+    background: #e0e0e0; /* Color de fondo de la barra */
+    border-radius: 5px;
+}
+
+/* Diseño del thumb (barra de desplazamiento) */
+body::-webkit-scrollbar-thumb {
+    background: rgba(0, 123, 255, 0.7); /* Azul sobrio */
+    border-radius: 5px;
+    transition: background 0.3s ease-in-out;
+}
+
+/* Efecto hover para la barra de desplazamiento */
+body::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 123, 255, 0.9); /* Color más fuerte */
+}
+
+/* Solo mostrar la barra en pantallas grandes */
+@media (max-width: 1024px) {
+    body::-webkit-scrollbar {
+        display: none; /* Ocultar en pantallas pequeñas */
+    }
+}
+
+
+/* Establecer un contexto 3D para el contenedor */
+.background-animation {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    perspective: 1000px; /* Definir perspectiva para un efecto 3D */
+}
+
+/* Estilos comunes para las figuras */
+.shape {
+    position: absolute;
+    animation: move 10s infinite alternate;
+    opacity: 0.5;
+    transform-style: preserve-3d;
+    will-change: transform;
+}
+
+/* Forma del cubo 3D */
+.cube {
+    width: 60px;
+    height: 60px;
+    background-color: rgba(0, 255, 255, 0.6);
+    transform: rotateX(45deg) rotateY(45deg);
+    animation: move 15s infinite alternate, fadeInOut 12s infinite;
+}
+
+/* Forma del cuadrado (simulando 3D) */
+.square {
+    width: 60px;
+    height: 60px;
+    background-color: rgba(255, 0, 123, 0.6);
+    transform: rotateY(45deg);
+    animation: move 12s infinite alternate, fadeInOut 14s infinite;
+}
+
+/* Forma triangular 3D */
+.triangle {
+    width: 0;
+    height: 0;
+    border-left: 30px solid transparent;
+    border-right: 30px solid transparent;
+    border-bottom: 60px solid rgba(0, 255, 123, 0.6);
+    transform: rotateX(45deg) rotateY(45deg);
+    animation: move 20s infinite alternate, fadeInOut 16s infinite;
+}
+
+/* Animación para mover las figuras */
+@keyframes move {
+    0% {
+        transform: translate3d(0, 0, 0);
+    }
+    100% {
+        transform: translate3d(200px, 200px, 200px);
+    }
+}
+
+/* Animación de aparición/desaparición */
+@keyframes fadeInOut {
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+/* Forma de la cuadrícula 3D */
+.grid {
+    width: 100px;
+    height: 100px;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    transform: rotateX(45deg);
+    animation: move 25s infinite alternate, fadeInOut 20s infinite;
+}
+
+/* Forma hexagonal 3D */
+.hexagon {
+    width: 60px;
+    height: 60px;
+    background-color: rgba(0, 123, 255, 0.6);
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    transform: rotateY(45deg);
+    animation: move 22s infinite alternate, fadeInOut 18s infinite;
+}
+
+/* Forma espiral 3D (un poco más compleja) */
+.spiral {
+    width: 100px;
+    height: 100px;
+    background-color: rgba(255, 165, 0, 0.6);
+    border-radius: 50%;
+    transform: rotate3d(1, 1, 0, 45deg);
+    animation: rotateSpiral 16s infinite linear, move 16s infinite alternate;
+}
+
+/* Forma del círculo 3D */
+.circle {
+    width: 70px;
+    height: 70px;
+    background-color: rgba(173, 216, 230, 0.7); /* Azul pastel */
+    border-radius: 50%;
+    box-shadow: 0 0 15px rgba(173, 216, 230, 0.9); /* Efecto de brillo suave */
+    animation: move 18s infinite alternate, fadeInOut 14s infinite;
+}
+
+/* Animación para la espiral */
+@keyframes rotateSpiral {
+    0% {
+        transform: rotate3d(1, 1, 0, 0deg);
+    }
+    100% {
+        transform: rotate3d(1, 1, 0, 360deg);
+    }
+}
+
+
+
+
+
+
+
+/* Estilos para el encabezado del timeline */
+.timeline-header {
+    margin-bottom: 20px; /* Espacio debajo del encabezado */
+    padding: 10px; /* Relleno interno */
+    background: linear-gradient(135deg, rgba(0, 123, 255, 0.3), rgba(0, 255, 200, 0.3)); /* Gradiente llamativo */
+    border-radius: 12px; /* Bordes más redondeados */
+    width: 100%; /* Ancho completo */
+    max-width: 800px; /* Ancho máximo */
+    margin: 0 auto; /* Centrado horizontal */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+    position: relative;
+    overflow: hidden;
+}
+
+
+/* Borde iluminado giratorio */
+@keyframes glowing-border {
+    0% { box-shadow: 0 0 20px rgba(255, 255, 255, 1); }
+    50% { box-shadow: 0 0 40px rgba(255, 255, 255, 1); }
+    100% { box-shadow: 0 0 20px rgba(255, 255, 255, 1); }
+}
+
+.timeline-header {
+    animation: glowing-border 3s infinite alternate;
+}
+
+/* Animación de fondo para el encabezado */
+.timeline-header::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.6) 20%, transparent 50%);
+    animation: pulse 5s infinite linear;
+}
+
+/* Efecto de resplandor animado */
+@keyframes pulse {
+    0% {
+        transform: rotate(0deg);
+        opacity: 0.6;
+    }
+    100% {
+        transform: rotate(360deg);
+        opacity: 0.2;
+    }
+}
+
+/* Estilos para el texto del título dentro del encabezado */
+.timeline-header h2 {
+    color: #909090; /* Color del texto */
+    font-size: 22px; /* Tamaño de la fuente */
+    margin: 0; /* Eliminar márgenes */
+    text-align: center; /* Centrar el texto */
+    font-family: 'poppins', sans-serif; /* Fuente elegante y legible */
+    font-weight: 700; /* Hacerlo más impactante */
+    text-transform: uppercase; /* Letras en mayúscula */
+    letter-spacing: 2px; /* Espaciado para mejorar legibilidad */
+    position: relative;
+    display: inline-block;
+    padding: 10px 20px;
+    transition: transform 0.3s ease, text-shadow 0.3s ease;
+}
+
+/* Animación hover para el título */
+.timeline-header h2:hover {
+    transform: scale(1.1); /* Efecto de agrandamiento */
+    text-shadow: 0px 4px 15px rgba(0, 255, 255, 0.8); /* Brillo llamativo */
+}
+
+
+
+
+
+/* Estilos para el contenedor principal del timeline */
+.timeline {
+    position: relative; /* Posición relativa para los elementos dentro */
+    max-width: 800px; /* Ancho máximo */
+    margin: auto; /* Centrado automático */
+}
+
+
+
+/* Estilos para la línea que aparece en el centro del timeline */
+.timeline::after {
+    content: ''; /* Crear un elemento vacío */
+    position: absolute; /* Posición absoluta */
+    width: 6px; /* Ancho de la línea */
+    height: 100%; /* Asegura que ocupe toda la altura del contenedor */
+    background: linear-gradient(180deg, #cce5ff, #80cfff, #a3c8e8); /* Gradiente de azul delicado */
+    background-size: 100% 200%; /* Degradado que se moverá de arriba hacia abajo */
+    animation: gradientAnimation 5s ease infinite; /* Animación cíclica más suave */
+    top: 0; /* Alineación en la parte superior */
+    bottom: 0; /* Alineación en la parte inferior */
+    left: 50%; /* Centrado en el contenedor */
+    margin-left: -3px; /* Ajuste para centrar la línea */
+    transition: opacity 0.5s, background-color 0.3s; /* Transición de opacidad y color */
+    box-shadow: 0 0 8px rgba(204, 229, 255, 0.6), 0 0 15px rgba(204, 229, 255, 0.4); /* Sombra suave */
+}
+
+/* Animación cíclica para el gradiente */
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0% 0%;
+    }
+    50% {
+        background-position: 0% 100%;
+    }
+    100% {
+        background-position: 0% 0%;
+    }
+}
+
+
+
+
+
+
+/* Cuando el timeline tiene la clase 'hidden', la línea desaparece */
+.timeline.hidden::after {
+    opacity: 0; /* Hacer la línea invisible */
+}
+
+
+/* Estilos para los ítems dentro del timeline */
+.item {
+    position: relative; /* Posición relativa dentro del contenedor */
+    background: white; /* Fondo blanco */
+    border-radius: 8px; /* Bordes redondeados */
+    padding: 15px; /* Relleno interno */
+    margin: 20px 0; /* Espaciado entre los elementos */
+    width: 40%; /* Ancho de los ítems */
+    box-shadow: 0 0 10px rgba(0,0,0,0.1); /* Sombra alrededor */
+    transition: background 0.5s, transform 0.3s, opacity 0.5s; /* Transiciones suaves para efectos */
+    cursor: pointer; /* Cambiar el cursor al pasar sobre el ítem */
+    background: linear-gradient(90deg, #ffffff 0%, #cce5ff 100%); /* Fondo con gradiente */
+    background-size: 200% 100%; /* Tamaño del fondo */
+}
+
+/* Estilo para los ítems cuando están ocultos */
+.item.hidden {
+    opacity: 0; /* Hacer el ítem invisible */
+    transform: scale(0.9); /* Reducir el tamaño del ítem */
+}
+
+/* Estilo para cuando se pasa el cursor sobre el ítem */
+.item:hover {
+    background-position: 100% 0; /* Mover el fondo al 100% */
+    transform: scale(1.1); /* Aumentar el tamaño del ítem */
+}
+
+/* Posicionamiento para los ítems a la izquierda */
+.left { left: 0; /* Colocar a la izquierda */ }
+
+/* Posicionamiento para los ítems a la derecha */
+.right { left: 56.4%; /* Colocar a la derecha */ }
+
+
+
+
+/* Estilos para el círculo pequeño dentro de cada ítem */
+.item::before {
+    content: ''; /* Crear un elemento vacío */
+    position: absolute; /* Posición absoluta dentro del ítem */
+    width: 15px; /* Ancho del círculo */
+    height: 15px; /* Altura del círculo */
+    background-color: #007bff; /* Color del círculo */
+    border-radius: 50%; /* Hacer el círculo redondo */
+    top: 50%; /* Centrar verticalmente */
+    transform: translateY(-50%); /* Ajuste fino para centrar */
+}
+
+/* Para los elementos de la izquierda */
+.left::before { 
+    left: calc(100% + 10px); /* Pega el círculo a la derecha del ítem, junto a la línea central */
+}
+
+/* Para los elementos de la derecha */
+.right::before { 
+    right: calc(100% + 10px); /* Pega el círculo a la izquierda del ítem, junto a la línea central */
+    left: auto; /* Asegura que no herede la propiedad 'left' */
+}
+
+
+
+
+
+
+
+/* Modal para mostrar contenido emergente */
+.modal {
+    display: none; /* Inicialmente el modal está oculto */
+    position: fixed; /* Se posiciona de manera fija respecto a la pantalla */
+    top: 0; /* Se coloca en la parte superior */
+    left: 0; /* Se coloca a la izquierda */
+    width: 100%; /* Ocupa todo el ancho de la pantalla */
+    height: 100%; /* Ocupa todo el alto de la pantalla */
+    justify-content: center; /* Centra los elementos dentro del modal */
+    align-items: center; /* Centra los elementos dentro del modal */
+    opacity: 0; /* Inicialmente es invisible */
+    transition: opacity 0.5s ease; /* Desvanecimiento gradual cuando se muestre */
+    background: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
+}
+
+/* Modal visible */
+.modal.show {
+    display: flex; /* Muestra el modal */
+    opacity: 1; /* Lo hace visible */
+}
+
+/* Contenido del modal */
+.modal-content {
+    background: #f4f4f4; /* Mismo color que el fondo principal */
+    padding: 20px; /* Espaciado interno */
+    border-radius: 10px; /* Bordes redondeados */
+    width: 65%; /* Ancho del contenido */
+    height: 85%; /* Altura del contenido */
+    position: relative; /* Posición relativa para los elementos dentro */
+    border: 2px solid transparent; /* Borde transparente para animación */
+    animation: border-glow 2s infinite alternate; /* Animación de borde brillante */
+}
+
+/* Animación de resplandor en el borde */
+@keyframes border-glow {
+    0% {
+        border-color: rgba(0, 123, 255, 0.5); /* Color de borde inicial */
+        box-shadow: 0 0 10px rgba(0, 123, 255, 0.5); /* Sombra inicial */
+    }
+    100% {
+        border-color: rgba(0, 191, 255, 0.8); /* Color de borde final */
+        box-shadow: 0 0 20px rgba(0, 191, 255, 0.8); /* Sombra final */
+    }
+}
+
+/* Estilo del spinner (cargando) con partículas */
+.spinner {
+    display: none; /* Inicialmente oculto */
+    position: fixed; /* Posición fija en la pantalla */
+    top: 50%; /* Centrado verticalmente */
+    left: 50%; /* Centrado horizontalmente */
+    transform: translate(-50%, -50%); /* Ajuste de posición para centrar */
+    width: 60px; /* Ancho */
+    height: 60px; /* Alto */
+    border-radius: 50%; /* Redondeado */
+    border: 6px solid transparent; /* Borde transparente */
+    border-top: 6px solid rgba(255, 0, 0, 0.9); /* Parte superior roja */
+    animation: spin 1s linear infinite, glow 1.5s ease-in-out infinite alternate; /* Animaciones */
+    box-shadow: 0px 0px 10px rgba(255, 0, 0, 0.8), 0px 0px 20px rgba(255, 0, 0, 0.5); /* Efecto de resplandor */
+}
+
+/* Animación de giro del spinner */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Animación de resplandor en el spinner */
+@keyframes glow {
+    0% {
+        box-shadow: 0px 0px 10px rgba(255, 0, 0, 0.8), 0px 0px 20px rgba(255, 0, 0, 0.5);
+    }
+    100% {
+        box-shadow: 0px 0px 30px rgba(255, 0, 0, 1), 0px 0px 50px rgba(255, 0, 0, 0.7);
+    }
+}
+
+
+
+
+/* Estilo del spinner (cargando) con partículas */
+.spinner {
+    display: none; /* Inicialmente oculto */
+    position: fixed; /* Posición fija en la pantalla */
+    top: 50%; /* Centrado verticalmente */
+    left: 50%; /* Centrado horizontalmente */
+    transform: translate(-50%, -50%); /* Ajuste de posición para centrar */
+    width: 60px; /* Ancho */
+    height: 60px; /* Alto */
+    border-radius: 50%; /* Redondeado */
+    border: 6px solid transparent; /* Borde transparente */
+    border-top: 6px solid rgba(255, 0, 0, 0.9); /* Parte superior roja */
+    animation: spin 1s linear infinite, glow 1.5s ease-in-out infinite alternate; /* Animaciones */
+    box-shadow: 0px 0px 10px rgba(255, 0, 0, 0.8), 0px 0px 20px rgba(0, 0, 255, 0.8), 0px 0px 30px rgba(0, 255, 0, 0.8); /* Sombra con colores */
+    z-index: 1000; /* Asegura que esté sobre otros elementos */
+}
+
+/* Animación de rotación del spinner */
+@keyframes spin {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Animación de resplandor del spinner */
+@keyframes glow {
+    0% { box-shadow: 0px 0px 10px rgba(255, 0, 0, 0.8); }
+    100% { box-shadow: 0px 0px 40px rgba(255, 255, 0, 0.9); }
+}
+
+/* Animación para las partículas flotantes */
+@keyframes particles {
+    0% { opacity: 1; transform: translateY(0) scale(1); }
+    100% { opacity: 0; transform: translateY(-50px) scale(0.5); }
+}
+
+
+
+
+.popup-container {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(5px); /* Efecto de desenfoque */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    animation: fadeInBg 0.4s ease-in-out;
+}
+
+/* Animación de aparición */
+@keyframes fadeInBg {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.popup-content {
+    background: linear-gradient(135deg, #ffffff, #f7f7f7);
+    padding: 25px;
+    border-radius: 12px;
+    text-align: center;
+    position: relative;
+    width: 55%;
+    max-width: 750px;
+    box-shadow: 4px 4px 16px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    transform: scale(0.9);
+    animation: popupFade 0.3s ease-in-out forwards;
+}
+
+/* Animación de aparición del popup */
+@keyframes popupFade {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* Efecto hover sutil */
+.popup-content:hover {
+    box-shadow: 6px 6px 22px rgba(0, 0, 0, 0.25);
+}
+
+.popup-content video {
+    width: 100%;
+    border-radius: 10px;
+}
+
+/* Botón de cierre mejorado */
+.close-btn {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #666;
+    transition: all 0.3s ease;
+    background: #fff;
+    border-radius: 50%;
+    padding: 5px 10px;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.close-btn:hover {
+    background: #ff4b4b;
+    color: white;
+    transform: scale(1.1);
+}
+
+/* Estilo del título del popup */
+.popup-title {
+    font-size: 26px;
+    font-weight: bold;
+    color: #444;
+	margin-top: 5px;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    animation: fadeIn 1s ease-in-out;
+}
+
+
+.footer {
+    width: 50%; /* Reduje ligeramente el ancho */
+    margin: 30px auto; /* Centrado automático */
+    padding: 15px; /* Reduje el padding */
+    background-color: rgba(0, 120, 215, 0.07); /* Más traslúcido */
+    text-align: center;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 15px; /* Reduje el tamaño del texto */
+    font-weight: 500;
+    box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.footer:hover {
+    background-color: rgba(0, 120, 215, 0.15); /* Cambio sutil en hover */
+    box-shadow: 6px 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
