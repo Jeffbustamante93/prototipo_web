@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modal 2: Interfaz y Navegación en Blender</title>
+    <style>
+        /* Establecer fuente general sans-serif */
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        /* Estilo para el contenedor de video dentro del modal */
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%;
+            margin-bottom: 20px;
+        }
+
+        /* Estilo del iframe para el video */
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 8px;
+        }
+
+        /* Estilo del slider de miniaturas */
+        .video-slider {
+            display: flex;
+            overflow-x: auto;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding: 10px 0;
+        }
+
+        /* Estilo de las miniaturas */
+        .video-thumbnail {
+            flex: 0 0 auto;
+            width: 120px;
+            height: 80px;
+            cursor: pointer;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .video-thumbnail:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .video-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Estilo del texto dentro del modal */
+        .modal-text {
+            text-align: left;
+            color: #333;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .modal-text:hover {
+         /*  transform: translateY(-5px); */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Estilo para listas dentro del texto modal */
+        .modal-text ul {
+            padding-left: 20px;
+            list-style-type: disc;
+        }
+
+        .modal-text ul li {
+            margin-bottom: 10px;
+        }
+
+        /* Estilo para tablas dentro del modal */
+        .modal-text table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        /* Estilo para las celdas de la tabla */
+        .modal-text th, .modal-text td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        /* Estilo para los encabezados de las tablas */
+        .modal-text th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        /* Categoría para los encabezados */
+        h2, h3 {
+            font-family: 'Roboto', sans-serif;
+            font-weight: 700;
+        }
+
+        /* Estilo específico para el h2 */
+        h2 {
+            color: #333;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 2rem;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        /* Estilo específico para los h3 */
+        .modal-text h3 {
+            color: #007bff;
+            margin-top: 0;
+            font-size: 1.5rem;
+            animation: slideInLeft 0.5s ease-in-out;
+        }
+
+        /* Estilo para enlaces */
+        a {
+            color: #007bff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: #0056b3;
+            text-decoration: underline;
+        }
+
+        /* Animaciones */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideInLeft {
+            from { transform: translateX(-20px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* Mejoras en el diseño de los recursos */
+        .resources-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .resource-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .resource-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .resource-card h4 {
+            margin-top: 0;
+            color: #007bff;
+            font-size: 1.2rem;
+        }
+
+        .resource-card p {
+            margin: 10px 0;
+            color: #555;
+        }
+			
+/* Estilo para el contenedor del juego */
+.game-container {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.game-button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.game-button:hover {
+    background-color: #0056b3;
+}
+
+/* Estilo del modal del juego */
+.game-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.game-modal-content {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    width: 500px;
+    text-align: center;
+    font-family: Arial, sans-serif;
+}
+
+.game-modal-content h4 {
+    font-size: 1.5rem;
+}
+
+.game-modal-content p {
+    font-size: 1.1rem;
+    margin: 10px 0;
+}
+
+.game-modal-content input {
+    font-size: 1.2rem;
+    padding: 5px;
+    width: 50px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.game-modal-content button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.game-modal-content button:hover {
+    background-color: #0056b3;
+}
+
+/* Estilo para el contenedor de la palabra y letras */
+#word-container {
+    font-size: 2rem;
+    letter-spacing: 1rem;
+    margin-bottom: 10px;
+}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+    </style>
+</head>
+<body>
+    <div class="modal-content">
+        <h2>Interfaz y Navegación en Blender</h2>
+        <p>Bienvenido al tutorial sobre la interfaz y navegación en Blender. Aprenderás a moverte por el espacio de trabajo, utilizar atajos esenciales y personalizar la interfaz para mejorar tu flujo de trabajo.</p>
+        
+<!-- Video principal -->
+<div class="video-container">
+    <iframe id="main-video" src="https://www.youtube.com/embed/XXqyWKLSL9o" allowfullscreen></iframe>
+</div>
+
+<!-- Slider de miniaturas de videos -->
+<div class="video-slider">
+    <div class="video-thumbnail" data-video-url="https://www.youtube.com/embed/XXqyWKLSL9o">
+        <img src="https://img.youtube.com/vi/XXqyWKLSL9o/default.jpg" alt="Interfaz de Blender 4.3 desde cero (Descarga, instalación y navegación)">
+    </div>
+    <div class="video-thumbnail" data-video-url="https://www.youtube.com/embed/t2IGaZ4wgYg">
+        <img src="https://img.youtube.com/vi/t2IGaZ4wgYg/default.jpg" alt="Interfaz de Blender 4.3 desde cero (Paneles principales)">
+    </div>
+    <div class="video-thumbnail" data-video-url="https://www.youtube.com/embed/b_3jaXpI9gE">
+        <img src="https://img.youtube.com/vi/b_3jaXpI9gE/default.jpg" alt="Interfaz de Blender 4.3 desde cero (Viewport en detalle)">
+    </div>
+    <div class="video-thumbnail" data-video-url="https://www.youtube.com/embed/Da7jkrH__ik">
+        <img src="https://img.youtube.com/vi/Da7jkrH__ik/default.jpg" alt="Interfaz de Blender 4.3 desde cero (Configuración de Workspaces)">
+    </div>
+    <div class="video-thumbnail" data-video-url="https://www.youtube.com/embed/u0s8Jxz5DIs">
+        <img src="https://img.youtube.com/vi/u0s8Jxz5DIs/default.jpg" alt="Blender. Interfaz y navegación. Parte 1">
+    </div>
+    <div class="video-thumbnail" data-video-url="https://www.youtube.com/embed/BCg_IDLButg">
+        <img src="https://img.youtube.com/vi/BCg_IDLButg/default.jpg" alt="Interfaz y navegación - Blender">
+    </div>
+    <div class="video-thumbnail" data-video-url="https://www.youtube.com/embed/kJXpzDgKgV0">
+        <img src="https://img.youtube.com/vi/kJXpzDgKgV0/default.jpg" alt="¿Cómo es la interfaz de Blender?">
+    </div>
+    <div class="video-thumbnail" data-video-url="https://www.youtube.com/embed/Ndt0XJ-rP3w">
+        <img src="https://img.youtube.com/vi/Ndt0XJ-rP3w/default.jpg" alt="Fundamentos de Blender 4.3: Domina la Interfaz y los Workspaces">
+    </div>
+    <div class="video-thumbnail" data-video-url="https://www.youtube.com/embed/GMURRJ2jqDA">
+        <img src="https://img.youtube.com/vi/GMURRJ2jqDA/default.jpg" alt="¡Tutorial de Blender desde Cero! Guía Definitiva 2025">
+    </div>
+    <div class="video-thumbnail" data-video-url="https://www.youtube.com/embed/zjggyYAt_e0">
+        <img src="https://img.youtube.com/vi/zjggyYAt_e0/default.jpg" alt="BLENDER 3.0 PARA PRINCIPIANTES - Parte 2 - Interfaz y configuración">
+    </div>
+    <div class="video-thumbnail" data-video-url="https://www.youtube.com/embed/PqXEhB5cgAg">
+        <img src="https://img.youtube.com/vi/PqXEhB5cgAg/default.jpg" alt="Mover, rotar, escalar y editar objetos - Parte 3">
+    </div>
+    <div class="video-thumbnail" data-video-url="https://www.youtube.com/embed/6sM4aXrXLFs">
+        <img src="https://img.youtube.com/vi/6sM4aXrXLFs/default.jpg" alt="Redondear bordes, extruir, Loop cut, inset y solidify - Parte 4">
+    </div>
+</div>
+
+
+ <!-- Consejos sobre Interfaz y Navegación en Blender -->
+<div class="modal-text">
+  <h3>Consejos Rápidos para Navegar en Blender</h3>
+  <ul>
+    <li>Usa <strong>G</strong> para mover objetos, <strong>R</strong> para rotarlos y <strong>S</strong> para escalarlos.</li>
+    <li>Con <strong>Shift + A</strong> puedes añadir nuevos objetos como cubos, cámaras o luces.</li>
+    <li>Presiona <strong>Tab</strong> para alternar entre modo Objeto y modo Edición.</li>
+    <li>Utiliza el <strong>Numpad</strong> (1, 3, 7) para cambiar entre vistas Frontal, Lateral y Superior. Usa <strong>Ctrl</strong> + Numpad para la vista opuesta.</li>
+    <li>Activa la vista de cuatro paneles con <strong>Ctrl + Alt + Q</strong> para visualizar diferentes ángulos simultáneamente.</li>
+    <li>Presiona <strong>Middle Mouse Button</strong> y arrastra para orbitar la vista 3D.</li>
+    <li>Usa <strong>Shift + Middle Mouse</strong> para desplazar la vista (pan).</li>
+    <li>Presiona <strong>N</strong> para mostrar/ocultar el panel lateral con propiedades del objeto.</li>
+    <li>Con <strong>Period (.)</strong> puedes centrar la vista en el objeto seleccionado.</li>
+    <li>Presiona <strong>Z</strong> y selecciona "Solid", "Wireframe" o "Rendered" para cambiar el modo de visualización.</li>
+  </ul>
+</div>
+
+<!-- Tabla de Atajos de Teclado -->
+<div class="modal-text">
+  <h3>Atajos Esenciales de Teclado</h3>
+  <table border="1" cellspacing="0" cellpadding="6" style="width:100%; border-collapse: collapse; text-align: left;">
+    <thead>
+      <tr>
+        <th>Acción</th>
+        <th>Atajo</th>
+        <th>Descripción</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Modo Objeto/Edición</td>
+        <td><strong>Tab</strong></td>
+        <td>Alterna entre manipular objetos completos o vértices/aristas/carasy.</td>
+      </tr>
+      <tr>
+        <td>Agregar objetos</td>
+        <td><strong>Shift + A</strong></td>
+        <td>Abre el menú para insertar objetos en la escena.</td>
+      </tr>
+      <tr>
+        <td>Duplicar</td>
+        <td><strong>Shift + D</strong></td>
+        <td>Hace una copia exacta del objeto seleccionado.</td>
+      </tr>
+      <tr>
+        <td>Eliminar objeto</td>
+        <td><strong>X</strong> o <strong>Delete</strong></td>
+        <td>Elimina el objeto seleccionado de la escena.</td>
+      </tr>
+      <tr>
+        <td>Vista Perspectiva/Ortográfica</td>
+        <td><strong>Numpad 5</strong></td>
+        <td>Alterna entre visualización ortográfica y en perspectiva.</td>
+      </tr>
+      <tr>
+        <td>Cámara a vista actual</td>
+        <td><strong>Ctrl + Alt + 0</strong></td>
+        <td>Coloca la cámara en la vista actual del usuario.</td>
+      </tr>
+      <tr>
+        <td>Guardar proyecto</td>
+        <td><strong>Ctrl + S</strong></td>
+        <td>Guarda el archivo .blend actual.</td>
+      </tr>
+      <tr>
+        <td>Rehacer/Deshacer</td>
+        <td><strong>Ctrl + Z / Ctrl + Shift + Z</strong></td>
+        <td>Deshace o rehace acciones recientes.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Recursos y Enlaces -->
+<div class="modal-text">
+  <h3>Recursos Adicionales Recomendados</h3>
+  <div class="resources-section">
+    <div class="resource-card">
+      <h4>📘 Manual Oficial de Blender</h4>
+      <p>Consulta toda la documentación oficial organizada por secciones.</p>
+      <a href="https://docs.blender.org/manual/en/latest/interface/index.html" target="_blank">Ver Manual</a>
+    </div>
+    <div class="resource-card">
+      <h4>🎓 Curso Gratuito en Blender.org</h4>
+      <p>Accede a tutoriales oficiales para aprender Blender desde lo básico hasta avanzado.</p>
+      <a href="https://www.blender.org/support/tutorials/" target="_blank">Acceder al Curso</a>
+    </div>
+    <div class="resource-card">
+      <h4>💬 Comunidad Blender Artists</h4>
+      <p>Foros de usuarios donde puedes compartir tus trabajos y resolver dudas.</p>
+      <a href="https://blenderartists.org/" target="_blank">Visitar Comunidad</a>
+    </div>
+    <div class="resource-card">
+      <h4>📺 Blender Guru - YouTube</h4>
+      <p>Canal imprescindible para aprender a modelar, texturizar y renderizar con estilo.</p>
+      <a href="https://www.youtube.com/user/AndrewPPrice" target="_blank">Ir al Canal</a>
+    </div>
+    <div class="resource-card">
+      <h4>📚 Libros y PDFs</h4>
+      <p>Recopilación de libros gratuitos y pagos para aprender Blender (en inglés).</p>
+      <a href="https://www.blendernation.com/category/books/" target="_blank">Explorar Libros</a>
+    </div>
+  </div>
+</div>
+	
+	
+	
+	<!-- Juego de Ahorcado -->
+<div class="game-container">
+    <button class="game-button" onclick="openGameModal()">Jugar al Ahorcado</button>
+</div>
+
+<!-- Modal para el juego de Ahorcado -->
+<div class="game-modal" id="gameModal">
+    <div class="game-modal-content">
+        <h4>¡Adivina la palabra relacionada con Blender!</h4>
+        <p><strong>Pista:</strong> <span id="hint"></span></p>
+        <div id="word-container"></div>
+        <p>Intentos restantes: <span id="attempts">6</span></p>
+        <input type="text" id="guess" maxlength="1" oninput="checkGuess()" autofocus />
+        <button onclick="closeGameModal()">Cerrar</button>
+        <button onclick="resetGame()">Reiniciar Juego</button>
+        <p id="game-status"></p>
+    </div>
+</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+</body>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+    </div>
+
+    <script>
+         // JavaScript para cargar dinámicamente los videos
+        document.addEventListener('DOMContentLoaded', function() {
+            const mainVideo = document.getElementById('main-video');
+            const thumbnails = document.querySelectorAll('.video-thumbnail');
+
+            thumbnails.forEach(thumbnail => {
+                thumbnail.addEventListener('click', function() {
+                    const videoUrl = this.getAttribute('data-video-url');
+                    mainVideo.src = videoUrl;
+                });
+            });
+        });
+		
+
+		
+		// Lista de palabras relacionadas con la Interfaz y Navegación en Blender con sus respectivas pistas
+const words = [
+    { word: "viewport", hint: "Área principal donde puedes visualizar y editar tu escena 3D." },
+    { word: "gizmo", hint: "Herramienta visual en pantalla para mover, rotar o escalar objetos." },
+    { word: "numpad", hint: "Teclado numérico utilizado para cambiar rápidamente de vista en Blender." },
+    { word: "atajo", hint: "Combinación de teclas que acelera tareas comunes en la interfaz." },
+    { word: "navegación", hint: "Acción de moverse dentro del espacio 3D usando zoom, rotación y paneo." },
+    { word: "menú", hint: "Sección de la interfaz que agrupa funciones específicas como Archivo o Edición." },
+    { word: "barra", hint: "Zona que contiene botones, herramientas o propiedades dentro de Blender." },
+    { word: "modo", hint: "Estado de trabajo como Objeto, Edición, Escultura, etc." },
+    { word: "tab", hint: "Tecla usada para alternar entre el modo Objeto y modo Edición." },
+    { word: "shift", hint: "Tecla usada junto a otras para funciones como selección múltiple o añadir objetos." }
+];
+
+// Variables del juego
+let selectedWord;
+let attemptsLeft;
+let guessedLetters;
+let wordDisplay;
+let gameStatus;
+let hintElement;
+
+// Función para abrir el modal del juego
+function openGameModal() {
+    const randomIndex = Math.floor(Math.random() * words.length);
+    selectedWord = words[randomIndex].word;
+    const hint = words[randomIndex].hint;
+    attemptsLeft = 6;
+    guessedLetters = [];
+    wordDisplay = Array(selectedWord.length).fill('_');
+    gameStatus = document.getElementById("game-status");
+    hintElement = document.getElementById("hint");
+    hintElement.textContent = hint;
+    
+    document.getElementById("gameModal").style.display = 'flex';
+    document.getElementById("word-container").textContent = wordDisplay.join(' ');
+    document.getElementById("attempts").textContent = attemptsLeft;
+    document.getElementById("guess").value = '';
+    document.getElementById("guess").focus();
+}
+
+// Función para cerrar el modal
+function closeGameModal() {
+    document.getElementById("gameModal").style.display = 'none';
+}
+
+// Función para reiniciar el juego
+function resetGame() {
+    openGameModal();
+}
+
+// Función para manejar la adivinanza de las letras
+function checkGuess() {
+    const guess = document.getElementById("guess").value.toLowerCase();
+    if (guess && !guessedLetters.includes(guess) && guess.match(/[a-z]/i)) {
+        guessedLetters.push(guess);
+        if (selectedWord.includes(guess)) {
+            updateWordDisplay(guess);
+        } else {
+            attemptsLeft--;
+            document.getElementById("attempts").textContent = attemptsLeft;
+            if (attemptsLeft === 0) {
+                gameStatus.textContent = `¡Perdiste! La palabra era: ${selectedWord}`;
+            }
+        }
+    }
+    document.getElementById("guess").value = '';
+}
+
+// Función para actualizar la palabra mostrada
+function updateWordDisplay(guess) {
+    wordDisplay = wordDisplay.map((letter, index) => {
+        return selectedWord[index] === guess ? guess : letter;
+    });
+    document.getElementById("word-container").textContent = wordDisplay.join(' ');
+    if (!wordDisplay.includes('_')) {
+        gameStatus.textContent = '¡Ganaste! Has adivinado la palabra.';
+    }
+}
+    </script>
+</body>
+</html>
