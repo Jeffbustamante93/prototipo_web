@@ -10,9 +10,6 @@
 
 <style>
 
-
-
-
 </style>
 
 
@@ -34,34 +31,31 @@
 		
     </div>
 
-
-
-
-
-
-
-
-
+      
     <div class="timeline" id="timeline">
         <div class="item left" data-modal="modals/modal1.html">Introducción a Blender</div>
         <div class="item right" data-modal="modals/modal2.html">Interfaz y Navegación</div>
         <div class="item left" data-modal="modals/modal3.html">Modelado 3D Básico</div>
         <div class="item right" data-modal="modals/modal4.html">Texturizado y Materiales</div>
-        <div class="item left" data-modal="modals/modal5.html">Iluminación y Render</div>
-        <div class="item right" data-modal="modals/modal6.html">Animación Básica</div>
-        <div class="item left" data-modal="modals/modal7.html">Esculpido Digital</div>
-        <div class="item right" data-modal="modals/modal8.html">Simulación de Física</div>
-        <div class="item left" data-modal="modals/modal9.html">Efectos y Composición</div>
-        <div class="item right" data-modal="modals/modal10.html">Exportación y Optimización</div>
+        <div class="item left" data-modal="modals/modal5.html">Animación Básica</div>
+        <div class="item right" data-modal="modals/modal6.html">Esculpido Digital</div>
+        <div class="item left" data-modal="modals/modal7.html">Efectos y Composición</div>
+        <div class="item right" data-modal="modals/modal8.html">Exportación y Optimización</div>
     </div>
 	
 
 	 <div class="footer">
-        <div><strong>Proyecto de Ingeniería 2</strong></div>
-        <div>Diseño y Desarrollo Web: Jeffrey Bustamante</div>
-        <div>Didáctica y estructura educativa medinate: Licencias - CC Colombia - Creative Commons</div>
-        <div>Diseño Visual: Jeffrey Bustamante</div>
-        <div>2025</div>
+  <div class="accordion">
+    <button class="accordion-toggle">Info Desarrollo Web ⮟</button>
+    <div class="accordion-content">
+      <div><strong>Proyecto de Ingeniería 2</strong></div>
+      <div>Diseño y Desarrollo Web: Jeffrey Bustamante</div>
+      <div>Didáctica y estructura educativa mediante: Licencias - CC Colombia - Creative Commons</div>
+      <div>Diseño Visual: Jeffrey Bustamante</div>
+      <div>2025</div>
+    </div>
+  </div>
+</div>
 	
 
 		<!-- Contenedor del Modal -->
@@ -86,11 +80,18 @@
         <!-- TÍTULO DENTRO DEL POPUP -->
         <h2 class="popup-title">Bienvenidos a Blender desde Cero</h2>
         
-        <video id="popupVideo" controls autoplay>
-            <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
-            Tu navegador no soporta videos.
-        </video>
+        <div class="modal-text">
+    <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+        <iframe id="popupVideo"
+            src="https://www.youtube.com/embed/82WW9dVbglI?start=12&autoplay=1&loop=1&playlist=82WW9dVbglI&controls=0&mute=1&modestbranding=1&rel=0"
+            frameborder="0"
+            allow="autoplay; encrypted-media"
+            allowfullscreen
+            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+        </iframe>
     </div>
+		</div>
+			</div>
 </div>
 
 
@@ -109,6 +110,18 @@
             document.getElementById("popup").style.display = "none";
             document.getElementById("popupVideo").pause();
         }
+	
+	
+	
+	
+	document.querySelector('.accordion-toggle').addEventListener('click', function () {
+    const accordion = this.parentElement;
+    accordion.classList.toggle('open');
+    this.innerHTML = accordion.classList.contains('open')
+        ? 'Info Desarrollo Web ⮝'
+        : 'Info Desarrollo Web ⮟';
+});
+	
 	
 	</script>
 	
